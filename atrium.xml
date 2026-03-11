@@ -12,17 +12,16 @@
   <Privileged>false</Privileged>
   <Support>https://github.com/Vibra-Labs/Atrium/issues</Support>
   <Project>https://github.com/Vibra-Labs/Atrium</Project>
-  <Overview>Atrium is a self-hosted client portal for agencies and freelancers. Share project progress, files, and updates with your clients through a beautiful branded portal.[br][br][b]Features:[/b][br]- Project management with status tracking[br]- File sharing with S3/MinIO/R2 or local storage[br]- Branded client portal[br]- Email notifications via Resend[br]- Multi-user with role-based access[br][br][b][span style='color: #E80000;']Requirements:[/span][/b][br]- PostgreSQL 16 database (install the AtriumDB companion container or point DATABASE_URL to an existing Postgres instance)</Overview>
+  <Overview>Atrium is a self-hosted client portal for agencies and freelancers. Share project progress, files, and updates with your clients through a beautiful branded portal.[br][br][b]Features:[/b][br]- Project management with status tracking[br]- File sharing with S3/MinIO/R2 or local storage[br]- Branded client portal[br]- Email notifications via Resend[br]- Multi-user with role-based access[br][br][b]Database:[/b] Includes a built-in PostgreSQL database by default. To use an existing external database instead, set "Use Built-in DB" to false and provide your DATABASE_URL.</Overview>
   <Category>Productivity: Tools: Network:Web</Category>
   <Date>2026-03-10</Date>
   <WebUI>http://[IP]:[PORT:8080]</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/Vibra-Labs/unraid-templates/main/atrium.xml</TemplateURL>
   <Icon>https://raw.githubusercontent.com/Vibra-Labs/unraid-templates/main/images/atrium-icon.png</Icon>
   <ExtraParams>--restart=unless-stopped</ExtraParams>
-  <Requires>PostgreSQL 16 database (install the official postgres container or use an external database)</Requires>
   <DonateText>Support Atrium development</DonateText>
   <DonateLink>https://github.com/Vibra-Labs/Atrium</DonateLink>
-  <Description>Atrium is a self-hosted client portal for agencies and freelancers. Share project progress, files, and updates with your clients through a beautiful branded portal.</Description>
+  <Description>Atrium is a self-hosted client portal for agencies and freelancers. Share project progress, files, and updates with your clients through a beautiful branded portal. Includes a built-in database — no separate container needed.</Description>
 
   <!-- Web UI Port -->
   <Config
@@ -36,17 +35,7 @@
     Required="true"
     Mask="false">8080</Config>
 
-  <!-- Required Environment Variables -->
-  <Config
-    Name="Database URL"
-    Target="DATABASE_URL"
-    Default="postgresql://atrium:atrium@AtriumDB:5432/atrium"
-    Description="PostgreSQL connection string. If using the Atrium-DB companion container, use: postgresql://atrium:atrium@AtriumDB:5432/atrium"
-    Type="Variable"
-    Display="always"
-    Required="true"
-    Mask="false">postgresql://atrium:atrium@AtriumDB:5432/atrium</Config>
-
+  <!-- Auth Secret -->
   <Config
     Name="Auth Secret"
     Target="BETTER_AUTH_SECRET"
@@ -56,6 +45,39 @@
     Display="always"
     Required="true"
     Mask="true"></Config>
+
+  <!-- Built-in Database Toggle -->
+  <Config
+    Name="Use Built-in DB"
+    Target="USE_BUILT_IN_DB"
+    Default="true"
+    Description="Use the built-in PostgreSQL database. Set to false and provide DATABASE_URL below to use an external database."
+    Type="Variable"
+    Display="always"
+    Required="false"
+    Mask="false">true</Config>
+
+  <!-- Database Data (for built-in DB) -->
+  <Config
+    Name="Database Storage"
+    Target="/var/lib/postgresql/data"
+    Default="/mnt/user/appdata/atrium/db"
+    Description="Path to store built-in PostgreSQL data (only used when built-in DB is enabled)"
+    Type="Path"
+    Display="always"
+    Required="false"
+    Mask="false">/mnt/user/appdata/atrium/db</Config>
+
+  <!-- External Database URL -->
+  <Config
+    Name="Database URL"
+    Target="DATABASE_URL"
+    Default=""
+    Description="External PostgreSQL connection string (only needed if built-in DB is disabled). Example: postgresql://user:pass@host:5432/atrium"
+    Type="Variable"
+    Display="always"
+    Required="false"
+    Mask="false"></Config>
 
   <!-- Storage -->
   <Config
