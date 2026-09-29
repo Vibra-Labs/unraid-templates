@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Maintainer>
+  <Icon>https://raw.githubusercontent.com/Vibra-Labs/unraid-templates/main/images/atrium-icon.png</Icon>
+  <Profile>Vibra Labs builds Atrium, a self-hosted client portal for agencies and freelancers.</Profile>
+  <WebPage>https://github.com/Vibra-Labs/Atrium</WebPage>
+  <Forum>https://github.com/Vibra-Labs/Atrium/issues</Forum>
+</Maintainer>
